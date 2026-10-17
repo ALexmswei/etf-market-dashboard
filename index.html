@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="ETF 仪表盘，复原沪深 300 ETF 份额变化页面，并整理各菜单项的公开数据源。"
+    />
+    <title>ETF 仪表盘</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="仪表盘导航">
+        <div class="brand">
+          <h1>ETF仪表盘</h1>
+          <p>沪深300 &amp; 中证500</p>
+        </div>
+        <nav class="menu" id="menu"></nav>
+        <div class="sidebar-foot">
+          <span>数据截止</span>
+          <strong id="sidebarDate">载入中</strong>
+          <span class="update-status" id="updateStatus">等待检查</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="page-header">
+          <div>
+            <h2 id="pageTitle">沪深300 ETF</h2>
+            <p id="pageSubtitle" class="page-subtitle">上海证券交易所 · 日终基金份额</p>
+          </div>
+          <span class="header-badge" id="pageBadge">5只 · 83个交易日</span>
+        </header>
+
+        <section class="page active" id="dashboardPage" aria-label="沪深300 ETF 数据">
+          <div class="summary-grid" id="summaryCards" aria-live="polite"></div>
+
+          <section class="chart-card">
+            <div class="chart-head">
+              <div>
+                <h3 id="chartHeading">总份额变化曲线（全部）</h3>
+                <div class="updown-legend" aria-label="份额变化方向">
+                  <span><i class="legend-dot up"></i>份额增加（涨）</span>
+                  <span><i class="legend-dot down"></i>份额减少（跌）</span>
+                </div>
+              </div>
+              <div class="chart-actions">
+                <button type="button" id="resetChart" class="icon-text-button">
+                  重置
+                </button>
+              </div>
+            </div>
+
+            <div class="series-legend" id="seriesLegend" aria-label="基金图例"></div>
+
+            <div class="chart-wrap" id="chartWrap">
+              <svg
+                id="shareChart"
+                role="img"
+                aria-labelledby="chartTitle chartDescription"
+                preserveAspectRatio="xMidYMid meet"
+              >
+                <title id="chartTitle">5 只沪深 300 ETF 总份额变化</title>
+                <desc id="chartDescription">
+                  2026 年 5 月 22 日至 2026 年 10 月 15 日，五只沪深 300 ETF 的日终总份额。
+                </desc>
+              </svg>
+              <div class="chart-tooltip" id="chartTooltip" role="status" hidden></div>
+            </div>
+
+            <div class="chart-foot">
+              <p>
+                数据口径：交易所披露的基金总份额，单位亿份。份额变化通常对应申购赎回，不等于净值收益或资金流。
+              </p>
+              <a
+                id="primarySourceLink"
+                class="source-link"
+                href="https://www.sse.com.cn/market/funddata/volumn/etfvolumn/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                上交所 ETF 规模
+              </a>
+            </div>
+          </section>
+        </section>
+
+        <section class="page" id="commodityPage" aria-label="商品价格数据" hidden></section>
+
+        <section class="page" id="sourcePage" aria-label="数据源目录" hidden>
+          <div class="source-summary" id="sourceSummary"></div>
+          <section class="source-card">
+            <div class="source-card-head">
+              <div>
+                <h3>数据源与指标口径</h3>
+                <p id="sourceDescription"></p>
+              </div>
+              <span class="source-count" id="sourceCount">0 个来源</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>来源</th>
+                    <th>指标 / 字段</th>
+                    <th>频率</th>
+                    <th>访问</th>
+                  </tr>
+                </thead>
+                <tbody id="sourceRows"></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="method-card" id="methodCard">
+            <h3>实现说明</h3>
+            <ul id="methodList"></ul>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
