@@ -1,0 +1,364 @@
+{
+  "csi500": {
+    "title": "中证500 ETF",
+    "subtitle": "沪深交易所 · 日终基金份额",
+    "metric": "基金总份额（万份）",
+    "frequency": "每日收盘清算后",
+    "primaryAuthority": "上海证券交易所、深圳证券交易所",
+    "description": "中证500 ETF 使用沪深交易所同日披露的基金总份额，当前范围固定为 510500、159922、512500。",
+    "sources": [
+      {
+        "name": "上交所 ETF 规模",
+        "fields": "SEC_CODE、SEC_NAME、TOT_VOL（总份额，万份）",
+        "frequency": "每日",
+        "url": "https://www.sse.com.cn/market/funddata/volumn/etfvolumn/"
+      },
+      {
+        "name": "上交所 commonQuery 接口",
+        "fields": "COMMON_SSE_ZQPZ_ETFZL_XXPL_ETFGM_SEARCH_L",
+        "frequency": "按 STAT_DATE 查询",
+        "url": "https://query.sse.com.cn/commonQuery.do"
+      },
+      {
+        "name": "深交所基金规模",
+        "fields": "size_date、fund_code、current_size（万份）",
+        "frequency": "每日",
+        "url": "https://www.szse.cn/market/fund/volume/etf/index.html"
+      }
+    ],
+    "methods": [
+      "当前基金代码为 510500、159922、512500，按沪深交易所统一交易日对齐。",
+      "TOT_VOL 除以 10000 后转换为亿份，与沪深300 ETF 页面保持同一单位。"
+    ]
+  },
+  "margin": {
+    "title": "融资融券",
+    "subtitle": "沪深交易所 · 融资融券交易与余额",
+    "metric": "融资余额、融券余额、融资买入额、融券卖出量",
+    "frequency": "每日",
+    "primaryAuthority": "上海证券交易所、深圳证券交易所",
+    "description": "融资融券适合按市场、标的证券和日期聚合，底层数据优先使用交易所每日融资融券汇总及明细。",
+    "sources": [
+      {
+        "name": "上交所融资融券数据",
+        "fields": "市场汇总、融资买入额、融资余额、融券卖出量、融券余量",
+        "frequency": "每日",
+        "url": "https://www.sse.com.cn/market/othersdata/margin/sum/"
+      },
+      {
+        "name": "深交所融资融券信息",
+        "fields": "融资买入额、融资余额、融券卖出量、融券余量",
+        "frequency": "每日",
+        "url": "https://www.szse.cn/disclosure/margin/margin/index.html"
+      }
+    ],
+    "methods": [
+      "跨市场汇总时分别保留沪市和深市口径，避免将沪市融资余额与深市标的数据直接混合。",
+      "金额单位统一为亿元，数量统一为亿股或亿份。"
+    ]
+  },
+  "coal": {
+    "title": "煤炭价格",
+    "subtitle": "动力煤、焦煤与焦炭价格跟踪",
+    "metric": "秦皇岛动力煤现货价、动力煤期货结算价",
+    "frequency": "工作日 / 每周",
+    "primaryAuthority": "中国煤炭市场网、郑州商品交易所",
+    "description": "现货煤炭价格没有统一免费的中央接口，优先使用行业公开报价，并用郑商所期货行情交叉校验。",
+    "sources": [
+      {
+        "name": "中国煤炭市场网 CCTD",
+        "fields": "CCTD 秦皇岛动力煤价格、库存、指数",
+        "frequency": "工作日",
+        "url": "https://www.cctd.com.cn/"
+      },
+      {
+        "name": "中国煤炭资源网",
+        "fields": "坑口价、港口价、焦煤与焦炭价格",
+        "frequency": "工作日",
+        "url": "https://www.sxcoal.com/"
+      },
+      {
+        "name": "CCTD 环渤海动力煤历史接口",
+        "fields": "Q5500K 日度历史序列",
+        "frequency": "工作日",
+        "url": "https://www.cctd.com.cn/Echarts/data/HBHCKJ_DLMQH.php"
+      },
+      {
+        "name": "CCTD 环渤海日评",
+        "fields": "Q5500K、Q5000K、Q4500K 日度参考价",
+        "frequency": "工作日",
+        "url": "https://www.coalchina.org.cn/index.php?m=content&c=index&a=lists&catid=33"
+      }
+    ],
+    "methods": [
+      "现货价和期货价分列，不能直接拼接为一条连续序列。",
+      "遇到行业网站调整口径时保留原始发布日期、热值和交货地。"
+    ]
+  },
+  "alumina": {
+    "title": "电解铝·氧化铝",
+    "subtitle": "上期所期货结算价与现货参考价",
+    "metric": "A00 铝均价、山西氧化铝均价、价差",
+    "frequency": "工作日",
+    "primaryAuthority": "上海有色网 SMM",
+    "description": "A00 铝和山西氧化铝采用 SMM 公开图表及报价文章中的均价、最低价、最高价与日度涨跌。",
+    "sources": [
+      {
+        "name": "SMM A00 铝历史价格",
+        "fields": "最低价、最高价、均价、日涨跌",
+        "frequency": "工作日",
+        "url": "https://hq.smm.cn/aluminum/category/201102250311"
+      },
+      {
+        "name": "SMM 国产氧化铝价格",
+        "fields": "山西、广西、贵州、河南、山东氧化铝报价",
+        "frequency": "工作日",
+        "url": "https://hq.smm.cn/aluminum/list/404"
+      },
+      {
+        "name": "SMM 山西氧化铝日评",
+        "fields": "氧化铝(山西)均价及日度涨跌",
+        "frequency": "工作日",
+        "url": "https://hq.smm.cn/aluminum/content/104161093"
+      }
+    ],
+    "methods": [
+      "价格曲线默认使用主力连续合约或近月合约，切换合约时明确标注。",
+      "期货结算价与现货报价分开绘制，避免价格口径混淆。"
+    ]
+  },
+  "aluminumInventory": {
+    "title": "铝锭库存",
+    "subtitle": "交易所库存与行业社会库存",
+    "metric": "沪铝仓单、期货库存、社会库存",
+    "frequency": "每日 / 每周",
+    "primaryAuthority": "上海期货交易所",
+    "description": "交易所仓单是公开、结构化程度最高的库存口径；社会库存补充趋势判断，但发布时间和样本口径不同。",
+    "sources": [
+      {
+        "name": "上期所仓单日报",
+        "fields": "AL 仓单数量、增减、有效预报",
+        "frequency": "交易日",
+        "url": "https://www.shfe.com.cn/reports/tradedata/dailyandweeklydata/?query_params=dailystock"
+      },
+      {
+        "name": "上海有色网 SMM",
+        "fields": "铝锭社会库存、铝棒库存",
+        "frequency": "每周",
+        "url": "https://www.smm.cn/"
+      }
+    ],
+    "methods": [
+      "仓单单位先统一为万吨，再与社会库存合并展示。",
+      "不同机构的社会库存样本不可直接线性拼接。"
+    ]
+  },
+  "copperPrice": {
+    "title": "电解铜价格",
+    "subtitle": "上期所沪铜与现货升贴水",
+    "metric": "沪铜结算价、1# 电解铜现货价",
+    "frequency": "交易日 / 工作日",
+    "primaryAuthority": "上海期货交易所",
+    "description": "沪铜价格优先采用上期所结构化日行情，现货价格使用行业公开报价并保留升贴水方向。",
+    "sources": [
+      {
+        "name": "上期所日行情",
+        "fields": "CU 合约结算价、成交量、持仓量",
+        "frequency": "交易日",
+        "url": "https://www.shfe.com.cn/reports/tradedata/dailyandweeklydata/"
+      },
+      {
+        "name": "上海有色网 SMM",
+        "fields": "1# 电解铜均价、升水或贴水",
+        "frequency": "工作日",
+        "url": "https://www.smm.cn/"
+      }
+    ],
+    "methods": [
+      "结算价、收盘价和现货均价不可混用。",
+      "跨月合约通过主力连续规则拼接时保留换月标记。"
+    ]
+  },
+  "copperInventory": {
+    "title": "电解铜库存",
+    "subtitle": "交易所库存与保税区/社会库存",
+    "metric": "沪铜仓单、期货库存、社会库存",
+    "frequency": "每日 / 每周",
+    "primaryAuthority": "上海期货交易所",
+    "description": "上期所仓单日报提供每日可核验数据；社会库存和保税区库存用于补充观察，但不替代交易所口径。",
+    "sources": [
+      {
+        "name": "上期所仓单日报",
+        "fields": "CU 仓单数量、增减、有效预报",
+        "frequency": "交易日",
+        "url": "https://www.shfe.com.cn/reports/tradedata/dailyandweeklydata/?query_params=dailystock"
+      },
+      {
+        "name": "上海有色网 SMM",
+        "fields": "电解铜社会库存、保税区库存",
+        "frequency": "每周",
+        "url": "https://www.smm.cn/"
+      }
+    ],
+    "methods": [
+      "先按吨获取原始数据，再统一换算为万吨。",
+      "库存减少不能单独解释为需求走强，应结合价格、进口与冶炼利润。"
+    ]
+  },
+  "lithiumSpot": {
+    "title": "碳酸锂现货",
+    "subtitle": "广期所现货价格与行业报价",
+    "metric": "电池级碳酸锂现货均价",
+    "frequency": "工作日",
+    "primaryAuthority": "广州期货交易所",
+    "description": "广期所发布碳酸锂现货参考价，适合作为公开基准；行业机构的电池级、工业级价格可作补充。",
+    "sources": [
+      {
+        "name": "广州期货交易所",
+        "fields": "碳酸锂现货参考价、LC 期货行情",
+        "frequency": "工作日 / 交易日",
+        "url": "http://www.gfex.com.cn/"
+      },
+      {
+        "name": "上海有色网 SMM",
+        "fields": "电池级碳酸锂、工业级碳酸锂现货均价",
+        "frequency": "工作日",
+        "url": "https://www.smm.cn/"
+      }
+    ],
+    "methods": [
+      "现货参考价、期货价格、矿石报价必须分类存储。",
+      "金额单位统一为元/吨或万元/吨，并在图中明确显示。"
+    ]
+  },
+  "lithiumWarrant": {
+    "title": "碳酸锂仓单",
+    "subtitle": "广州期货交易所注册仓单",
+    "metric": "碳酸锂注册仓单量、增减量",
+    "frequency": "交易日",
+    "primaryAuthority": "广州期货交易所",
+    "description": "仓单日报是碳酸锂库存和交割压力的直接公开指标，可按仓库和品牌进一步拆分。",
+    "sources": [
+      {
+        "name": "广期所仓单日报",
+        "fields": "LC 注册仓单、仓单增减、有效预报",
+        "frequency": "交易日",
+        "url": "http://www.gfex.com.cn/"
+      }
+    ],
+    "methods": [
+      "手数与吨数按交易所标准换算，保留原始单位和转换系数。",
+      "仓单注销和交割月前后变化应添加事件说明，避免误读为普通库存波动。"
+    ]
+  },
+  "goldReserve": {
+    "title": "黄金储备",
+    "subtitle": "中国人民银行官方储备资产",
+    "metric": "黄金储备（万盎司/吨）、环比变化",
+    "frequency": "每月",
+    "primaryAuthority": "国家外汇管理局 / 中国人民银行",
+    "description": "黄金储备以国家外汇管理局每月公布的官方储备资产为准，展示时同时提供美元估值和实物数量。",
+    "sources": [
+      {
+        "name": "国家外汇管理局官方储备资产",
+        "fields": "黄金储备数量、美元估值、月度环比",
+        "frequency": "每月",
+        "url": "https://www.safe.gov.cn/safe/whcb/index.html"
+      },
+      {
+        "name": "中国人民银行",
+        "fields": "黄金储备历史与官方说明",
+        "frequency": "每月",
+        "url": "https://www.pbc.gov.cn/"
+      }
+    ],
+    "methods": [
+      "万盎司转吨按 1 盎司 = 31.1034768 克计算。",
+      "数量变化和美元估值变化分列，美元估值受金价影响，不等同于增持量。"
+    ]
+  },
+  "scfi": {
+    "title": "集运运价 SCFI",
+    "subtitle": "上海出口集装箱运价指数",
+    "metric": "SCFI 综合指数及各航线指数",
+    "frequency": "每周",
+    "primaryAuthority": "上海航运交易所",
+    "description": "SCFI 用于观察上海出口集装箱即期运价，按综合指数和分航线指数展示。",
+    "sources": [
+      {
+        "name": "上海航运交易所 SCFI",
+        "fields": "综合指数、欧洲、地中海、美西、美东等航线指数",
+        "frequency": "每周五",
+        "url": "https://www.sse.net.cn/index/singleIndex?indexType=scfi"
+      },
+      {
+        "name": "上海航运交易所镜像站",
+        "fields": "SCFI 历史指数与公告",
+        "frequency": "每周",
+        "url": "https://www.sse.sh.cn/index/singleIndex?indexType=scfi"
+      }
+    ],
+    "methods": [
+      "基期为 2009 年 10 月 16 日，基期指数 1000 点。",
+      "综合指数与分航线指数保持同一发布日期。"
+    ]
+  },
+  "hydropower": {
+    "title": "长电来水发电",
+    "subtitle": "长江电力月度发电量与来水",
+    "metric": "三峡、葛洲坝、溪洛渡、向家坝电站发电量与来水",
+    "frequency": "每月",
+    "primaryAuthority": "长江电力公告 / 上交所",
+    "description": "长江电力定期公告披露各电站发电量和来水情况，适合使用公告原表结构化后展示。",
+    "sources": [
+      {
+        "name": "长江电力",
+        "fields": "月度发电量、来水情况、电站说明",
+        "frequency": "每月",
+        "url": "https://www.cypc.com.cn/"
+      },
+      {
+        "name": "上交所公告",
+        "fields": "600900 长江电力月度发电量公告",
+        "frequency": "每月",
+        "url": "https://www.sse.com.cn/assortment/stock/list/info/announcement/index.shtml?productId=600900"
+      },
+      {
+        "name": "巨潮资讯",
+        "fields": "定期公告 PDF 与披露日期",
+        "frequency": "每月",
+        "url": "http://www.cninfo.com.cn/new/disclosure/stock?stockCode=600900"
+      }
+    ],
+    "methods": [
+      "通过公告 PDF 提取表格，不使用二手文章中的四舍五入数值。",
+      "来水同比按公告口径展示，发电量按亿千瓦时统一单位。"
+    ]
+  },
+  "threeGorges": {
+    "title": "三峡水库水位",
+    "subtitle": "实时水位与出入库流量",
+    "metric": "坝前水位、入库流量、出库流量",
+    "frequency": "实时 / 每日",
+    "primaryAuthority": "三峡集团 / 长江水利委员会",
+    "description": "水位页面适合保留实时快照，并将每日封存值形成历史曲线；原始入口优先使用三峡集团和长江水利委员会。",
+    "sources": [
+      {
+        "name": "中国长江三峡集团",
+        "fields": "三峡水库水位、入库流量、出库流量",
+        "frequency": "实时",
+        "url": "http://www.ctg.com.cn/sxjt/sxsk/index.html"
+      },
+      {
+        "name": "长江水利委员会",
+        "fields": "长江流域水情、水库调度信息",
+        "frequency": "实时 / 每日",
+        "url": "http://www.cjh.com.cn/"
+      }
+    ],
+    "methods": [
+      "实时页面通常不提供稳定历史接口，需要按固定频率留档。",
+      "水位单位为米，流量单位为立方米/秒，不进行跨单位合并。"
+    ]
+  }
+}
