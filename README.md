@@ -61,4 +61,5 @@ python .\scripts\publish_github.py
 `etf-market-dashboard` 仓库、上传页面、开启 GitHub Pages，并输出类似
 `https://<用户名>.github.io/etf-market-dashboard/` 的固定网址。
 
-仓库内的 GitHub Actions 会在每个工作日 17:35（北京时间）尝试更新数据并重新部署。
+仓库内的 GitHub Actions 会在每个工作日 21:35（北京时间）更新数据并重新部署；
+如果交易所数据发布较晚，还会在次日 08:10 再补跑一次。

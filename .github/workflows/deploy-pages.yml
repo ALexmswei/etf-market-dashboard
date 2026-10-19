@@ -4,8 +4,12 @@ on:
   push:
     branches: [main]
   schedule:
-    # 17:35 Asia/Shanghai on weekdays.
-    - cron: "35 9 * * 1-5"
+    # Exchange fund-share data is often published later in the evening.
+    - cron: "35 21 * * 1-5"
+      timezone: "Asia/Shanghai"
+    # Catch up on the previous trading day if the evening source was late.
+    - cron: "10 8 * * 2-6"
+      timezone: "Asia/Shanghai"
   workflow_dispatch:
 
 permissions:

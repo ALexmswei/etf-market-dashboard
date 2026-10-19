@@ -183,6 +183,33 @@ a {
   background: var(--page);
 }
 
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  min-height: 48px;
+  margin: 0 40px;
+  padding: 0 0 22px;
+  color: #7b8495;
+  font-size: 12px;
+}
+
+.visit-stat {
+  white-space: nowrap;
+}
+
+.visit-stat strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.visit-divider {
+  width: 1px;
+  height: 12px;
+  background: var(--border);
+}
+
 .page-header {
   display: flex;
   min-height: 90px;
@@ -868,6 +895,12 @@ td a:hover {
 
   .page {
     padding: 14px 12px 24px;
+  }
+
+  .site-footer {
+    justify-content: center;
+    margin: 0 12px;
+    padding-bottom: 18px;
   }
 
   .summary-grid {
